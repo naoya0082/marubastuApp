@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController2: UIViewController {
+class ViewController2: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var AddQuestionArea: UITextField!
     let userDefaults = UserDefaults.standard
@@ -17,6 +17,22 @@ class ViewController2: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        AddQuestionArea.placeholder = "問題文を入力してください"
+        
+        AddQuestionArea.delegate = self
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // キーボードを閉じる
+        textField.resignFirstResponder()
+        AddQuestionArea.text = textField.text
+        return true
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
         
     }
     
@@ -43,7 +59,7 @@ class ViewController2: UIViewController {
     
     @IBAction func saveQuestionButton(_ sender: Any) {
         if AddQuestionArea.text == "" {
-            showAlert(message: "問題文を作成してください")
+            showAlert(message: "問題文を入力してください")
             
             return
             
@@ -70,7 +86,7 @@ class ViewController2: UIViewController {
     }
     @IBAction func delQuestionButton(_ sender: Any) {
         userDefaults.removeObject(forKey: "Questions")
-        showAlert(message: "問題を削除しました")
+        showAlert(message: "問題を全て削除しました")
         
     }
 }
